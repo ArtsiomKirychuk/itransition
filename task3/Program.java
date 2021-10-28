@@ -1,8 +1,6 @@
 public class Program{
     public static void main (String args[])
     {   
-        for(String str: args)
-            System.out.println(str);
         if(GameLogic.checkARGS(args)) System.exit(1);
         KeyGenerator random = new KeyGenerator();
         String pcMove=random.generatePCmove(args);

@@ -2,6 +2,7 @@ import java.security.SecureRandom;
 import org.bouncycastle.jcajce.provider.digest.*;
 import org.bouncycastle.util.encoders.Hex;
 
+
 public class KeyGenerator{
 
     private String key="";

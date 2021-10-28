@@ -3,7 +3,6 @@ import java.util.HashSet;
 import java.util.Scanner;
 
 
-
 public class GameLogic {
    
     public  static int compareMoves(String[] options, String a, String b){  
