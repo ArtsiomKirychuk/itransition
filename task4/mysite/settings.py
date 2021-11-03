@@ -1,23 +1,16 @@
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-f*oo(plee4^_2&d0u3p7%-zdr2ciq$r@y6fihcwwnww)ht17#y'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['itransitiondjangotask.herokuapp.com','127.0.0.1', '0.0.0.0']
 
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -32,9 +25,9 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github", 
     "allauth.socialaccount.providers.vk", 
-     'allauth.socialaccount.providers.google',
-
+    "allauth.socialaccount.providers.google",
     "classmates",
+     
 ]
 
 MIDDLEWARE = [
@@ -68,22 +61,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': '/etc/mysql/my.cnf',
-        },
-    }
+        "ENGINE": "django.db.backends.postgresql",    
+        "NAME": "django_db",
+        "USER": "django_user",
+        "PASSWORD": "django_user",
+        "HOST": "127.0.0.1",
+        "PORT":  "5432",
+        }
 }
 
+# postgres://wrneogktdqjixa:ab9faa88225cfcc711a6dfc60e60b42cb70d3d86adfa4f3403dc4278f20ea0a2@ec2-3-215-137-131.compute-1.amazonaws.com:5432/dcaramhk8dmdmk
 
-
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -101,12 +91,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = 'Europe/Minsk'  
 
 USE_I18N = True
 
@@ -115,15 +103,9 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -134,6 +116,7 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"
-LOGIN_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "classmates:home"
 ACCOUNT_LOGOUT_ON_GET = True
+
 
