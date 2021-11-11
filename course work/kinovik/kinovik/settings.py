@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'revapp',
+    'taggit',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +136,14 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config( 
+  cloud_name = "djpkuwaix", 
+  api_key = "813627926921399", 
+  api_secret = "kyP2UzZxQZX8OfGEfHryOQGm-qc" 
+)
