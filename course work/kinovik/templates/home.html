@@ -1,4 +1,5 @@
 {%load static%}
+{% load cloudinary %}      
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,63 +7,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="/static/css/bootstrap.min.css"rel="stylesheet" type="text/css"> 
+    <link href="{% static 'fontawesome_free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{%static 'css/style.css'%}"/>
-    <link href="{% static 'fontawesome_free/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'fontawesome_free/css/brands.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'fontawesome_free/css/solid.css' %}" rel="stylesheet" type="text/css">
+    
 
     <title>Document</title>
 </head>
 <body>  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <header>
     <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-dark nav-color">    
+      <nav class="navbar navbar-expand-lg navbar-dark nav-color py-4 ml-lg-5">    
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              <li class="nav-item">
+                <a class="navbar-brand" href="{%url 'revapp:index'%}"> <span style="color:#17a2b8"><i class="fas fa-home fa-2x"></i></span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
+                <form class="d-flex justify-content-center align-middle" action="{%url 'revapp:search'%}" method="GET">
+                  <input class="form-control me-2" type="search" aria-label="Search" name="q">
+                  <button class="btn btn-outline-info" type="submit">Search</button>
+                </form>
               </li>
             </ul>
-        </div>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-info" type="submit">Search</button>
-        </form>
-      </nav>
+            {% if user.is_authenticated %}
+            <div class="dropdown ms-auto">
+              <div class="dropdown-toggle " id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span style="color:#17a2b8"><i class="fas fa-users fa-2x"></i></span>
+              </div>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-item-text r">
+                    <img src="/static/images/user.jpg" width="50" alt="User" class="rounded"/>                    
+                    <p><span class="badge badge-secondary">Welcome,{{user.username}}</span></p>
+                </div>                   
+                <a class="dropdown-item btn btn-dark" href="{%url 'revapp:myarticles'%}">мои отзывы</a>
+                <a class="dropdown-item" href="">выход</a>   
+              
+
+              </div>      
+            </div>
+            {%else%}
+            <button type="button" class="btn btn-dark">Sign in</button>
+            <button type="button" class="btn btn-outline-info ">Sign up</button>
+            {%endif%}
+        </div>         
+      </nav>      
       
     </div>
 </header>
-      <div class="main">
-          <div class="container">
-                <div class="row row-one">
-                <div class ="col-1-4"></div>
-                <div class="col-3-4">
-                    {%block content%}
-                    {%endblock%}
-                </div>
-             </div>
-
-          </div>
-      </div>
-  <footer>
-    <div class="container">
-      <a href="#"><i class="fab fa-facebook fa-2x "></i></a>
-    </div>
-  </footer>
+<div class="main">
+          <div class="row row-one">
+            <div class ="col-1-4"></div>
+            <div class="col-3-4">
+                {%block content%}
+                {%endblock%}
+            </div>
+        </div>
+</div>
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<style>
-
-</style>

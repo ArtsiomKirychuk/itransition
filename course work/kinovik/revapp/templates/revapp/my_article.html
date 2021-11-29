@@ -1,0 +1,81 @@
+{%extends 'home.html'%}
+{%block content%}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+<div class="row flex-lg-nowrap">
+  <div class="col">
+
+
+
+    <div class="row flex-lg-nowrap">
+      <div class="col mb-3">
+        <div class="e-panel card">
+          <div class="card-body">
+            <div class="card-title">
+              <h6 class="mr-2"><span></span><small class="px-1">Be a wise leader</small></h6>
+            </div>
+            <div class="e-table">
+              <div class="table-responsive table-lg mt-3">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Photo</th>
+                      <th class="max-width">Title</th>
+                      <th class="sortable">Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {%for article in articles%}
+                    <tr>
+                      <td class="align-middle text-center">
+                       <img class="card-img-top" src="{{article.images.url}}"> 
+                      </td>
+                      <td class="text-nowrap align-middle">{{article.title}}</td>
+                      <td class="text-nowrap align-middle"><span>{{article.date_created|date:"M d, Y"}}</span></td>
+                      <td class="text-center align-middle">
+                        <div class="btn-group align-top">
+                            <a href="{%url 'revapp:update' article.slug%}" class="btn btn-sm btn-outline-secondary badge" type="button" >Edit</a>
+                            <a href="{%url 'revapp:delete' article.slug%}" class="btn btn-sm btn-outline-secondary badge" type="button"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    
+                    {%endfor%}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-3 mb-3">
+       <table class="table">
+           <thead>
+               <div class="card">
+                   <div class="card-title">
+                    <h6 class="mr-2">Filter</h6>
+                    <ul class="nav nav-tabs">
+                        
+                        <form class="d-flex justify-content-center align-middle" method="GET">
+                            <li class="nav-item"><a class="nav-link active" href="#"><small>Group</small></a></li>
+                            <li class="nav-item"><a class="nav-link active">{{filter.form.group}}</a></li>
+                            <li class="nav-item"><a class="nav-link active"><button class="btn btn-light"  type="submit"><i class="fas fa-search"></i></button></a></li>
+                        </form>
+                      </ul>
+                   </div>
+               </div>
+           </thead>
+           <tbody>
+               <tr>
+                <button class="btn btn-success btn-block">NEW ARICLE<i class="fas fa-plus"></i></button>
+               </tr>
+           </tbody>
+       </table>
+      </div>
+    </div>
+    
+  </div>
+</div>
+</div>
+{%endblock%}

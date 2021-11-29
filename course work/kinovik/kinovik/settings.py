@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'revapp',
     'taggit',
     'cloudinary',
+    'django_filters',
 ]
 
 
@@ -80,9 +81,9 @@ WSGI_APPLICATION = 'kinovik.wsgi.application'
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'itr_db',
-    'USER': 'itruser',
-    'PASSWORD': 'itrpassword',
+    'NAME': 'coursedb',
+    'USER': 'courseuser',
+    'PASSWORD': 'coursepass',
     'HOST': 'localhost',
     'PORT': '5432',
     }
@@ -134,7 +135,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'boot'),
+    os.path.join(BASE_DIR, 'boot'), 
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
