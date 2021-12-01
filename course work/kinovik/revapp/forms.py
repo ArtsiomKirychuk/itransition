@@ -7,7 +7,7 @@ from . import models
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = models.Article
-        fields = ['title', 'body','group','images','rating']
+        fields = ['title', 'body','group','tags','images','rating']
 
     def is_valid(self) -> bool:
         valid = super().is_valid()

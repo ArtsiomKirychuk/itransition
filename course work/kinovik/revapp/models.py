@@ -48,6 +48,10 @@ class Article(models.Model):
             return self.body[:30] + '...'
         else:
             return '[]'    
+    
+    def addView(self):
+        self.views += 1
+        self.save()
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)

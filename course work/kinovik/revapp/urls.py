@@ -11,6 +11,8 @@ urlpatterns = [
     path('group/', views.groupArticle, name='group'),
     path('create/', views.createArticle, name='create'),
     path('my-articles/', views.myArticles, name='myarticles'),
+    path('tag/<slug:slug>/', views.tagged, name='tagged'),
+    path('<slug:slug>/detail', views.detailArticle, name='detail'),
     path('<slug:slug>/update', views.updateArticle, name="update"),
     path('<slug:slug>/delete', views.deleteArticle, name='delete'),
 ]

@@ -1,18 +1,19 @@
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .filters import ArticleFilter
 from django.template.defaultfilters import title
 from .models import Article, Account
+from taggit.models import Tag
 from . import forms
 
 
 def index(request):  
     checkAccount(request)
-    articles = Article.objects.all()
+    articles = Article.objects.order_by('-views','-likes')
     articles = paginate(request, articles, modelPerPage=6)
     return render(request, 'revapp/article_list.html',{'articles':articles})
 
@@ -27,6 +28,14 @@ def myArticles(request):
         Account.objects.create(user=request.user)   
     return render(request, 'revapp/my_article.html', {'articles':articles, 'filter':myFilter})
 
+def detailArticle(request,slug):
+    try:
+        article = Article.objects.filter(slug=slug).get()
+    except:
+        raise Http404
+    article.addView()
+    return render(request, 'revapp/article_detail.html', {'article':article})
+
 def createArticle(request):
     if request.method=='POST':
         form = forms.ArticleForm(request.POST, request.FILES)
@@ -34,6 +43,7 @@ def createArticle(request):
             article = form.save(commit=False)
             article.author = Account.objects.filter(user_id=request.user.id).first()
             article.save()
+            form.save_m2m()
             return redirect('revapp:myarticles')
     else:
         form = forms.ArticleForm()
@@ -48,7 +58,8 @@ def updateArticle(request, slug):
         if form.is_valid() and Article.objects.filter(title = request.POST['title']).count() == 0:
             article = form.save(commit=False).save()
             return redirect('revapp:myarticles')      
-    else: form = forms.ArticleForm()
+    else:
+         form = forms.ArticleForm()
     return render(request,  'revapp/article_update.html', {'form':form, 'article':article})
 
 
@@ -80,7 +91,13 @@ def groupArticle(request):
 
 
     
+def tagged(request,slug):
+    tag = get_object_or_404(Tag, slug=slug)
+    print(tag,'@@@@@@@@@@@@@@@@')
+    articles =  Article.objects.filter(tags=tag)
+    print(articles,'@@@@@@@@@@@@@@@@')
 
+    return render(request, 'revapp/article_list.html', {'articles':articles,'tag':tag})
 
 def paginate(request, someModel, modelPerPage=6):
     page = request.GET.get('page',1)    
