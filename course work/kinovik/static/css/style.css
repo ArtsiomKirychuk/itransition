@@ -3,6 +3,8 @@ body {
   }
 header{
     background-color: #232321;
+    margin-bottom: 3%;
+
 }
 
   h1 {
@@ -32,7 +34,7 @@ header{
   }
 
   .col-1-4 {
-
+      margin-left: 2%;
       width: 15%;
       float: left;
       text-align:center;
@@ -247,3 +249,4 @@ a:hover{
       bottom: 100%;
     }
   }
+

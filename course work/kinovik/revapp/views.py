@@ -1,6 +1,6 @@
 from django.db.models import Q
-
-from django.http.response import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -10,13 +10,14 @@ from .models import Article, Account
 from . import forms
 
 
-def index(request):    
+def index(request):  
+    checkAccount(request)
     articles = Article.objects.all()
-    print(articles[0].GROUP)
-    articles = paginate(request, articles, modelPerPage=3   )
+    articles = paginate(request, articles, modelPerPage=6)
     return render(request, 'revapp/article_list.html',{'articles':articles})
 
 
+@login_required(login_url='revapp:index')
 def myArticles(request):
     account = Account.objects.select_related('user').filter(user=request.user).get()
     if account :
@@ -26,6 +27,17 @@ def myArticles(request):
         Account.objects.create(user=request.user)   
     return render(request, 'revapp/my_article.html', {'articles':articles, 'filter':myFilter})
 
+def createArticle(request):
+    if request.method=='POST':
+        form = forms.ArticleForm(request.POST, request.FILES)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author = Account.objects.filter(user_id=request.user.id).first()
+            article.save()
+            return redirect('revapp:myarticles')
+    else:
+        form = forms.ArticleForm()
+    return render(request, 'revapp/article_create.html',{'form':form})
 
 def updateArticle(request, slug):
     if request.user != Article.objects.filter(slug=slug).first().author.user:
@@ -50,13 +62,28 @@ def deleteArticle(request,slug):
 
 def searchArticle(request):
     query =  request.GET.get('q')
+    articles = []
     if query:
         articles = Article.objects.filter(Q(title__icontains=query)| Q(body__icontains=query))
     return render(request, 'revapp/article_list.html', {'articles':articles})
+
+
+def groupArticle(request):
+    group = request.GET['group']
+    articles = []
+    for item in Article.GROUP:
+        if group in item:
+            articles = Article.objects.filter(group=group).all()
+            return render( request, 'revapp/article_list.html', {'articles': articles})
+    return redirect('revapp:index')
+
+
+
     
 
+
 def paginate(request, someModel, modelPerPage=6):
-    page = request.GET.get('page',1)
+    page = request.GET.get('page',1)    
     paginator = Paginator(someModel, modelPerPage)
     try:
         someModel = paginator.page(page)
@@ -65,3 +92,9 @@ def paginate(request, someModel, modelPerPage=6):
     except EmptyPage:
         someModel = paginator.page(paginator.num_pages)
     return someModel
+
+
+def checkAccount(request):
+    if request.user.is_authenticated:
+        account = Account.objects.filter(user=request.user).first()
+        if not account: Account.objects.create(user=request.user)

@@ -1,5 +1,6 @@
 {%load static%}
-{% load cloudinary %}      
+{% load cloudinary %}    
+{% load socialaccount%}  
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,14 +43,14 @@
                     <p><span class="badge badge-secondary">Welcome,{{user.username}}</span></p>
                 </div>                   
                 <a class="dropdown-item btn btn-dark" href="{%url 'revapp:myarticles'%}">мои отзывы</a>
-                <a class="dropdown-item" href="">выход</a>   
+                <a class="dropdown-item" href="/accounts/logout">выход</a>   
               
 
               </div>      
             </div>
             {%else%}
-            <button type="button" class="btn btn-dark">Sign in</button>
-            <button type="button" class="btn btn-outline-info ">Sign up</button>
+            <a href="/accounts/login" type="button" class="btn btn-dark">Sign in</a>
+            <a href="/accounts/signup" type="button" class="btn btn-outline-info ">Sign up</a>
             {%endif%}
         </div>         
       </nav>      
@@ -58,7 +59,15 @@
 </header>
 <div class="main">
           <div class="row row-one">
-            <div class ="col-1-4"></div>
+            <div class ="col-1-4">
+              <form class="d-flex justify-content-center align-middle" action="{%url 'revapp:group'%}" method="GET">
+              <div class="d-inline btn-group-vertical " role="group" aria-label="Vertical button group">
+                <input class="btn btn-secondary btn-lg " type="submit" id="button1" value="Movie" name="group">
+                <input class="btn btn-secondary btn-lg " type="submit" id="button1" value="Books" name="group">    
+                <input class="btn btn-secondary btn-lg" type="submit" id="button1" value="Games" name="group">    
+              </div>
+              </form> 
+            </div>
             <div class="col-3-4">
                 {%block content%}
                 {%endblock%}

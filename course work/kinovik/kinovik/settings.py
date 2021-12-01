@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import sys
+from django.forms.widgets import ClearableFileInput
 import django_heroku
 
 sys.modules['fontawesome_free'] = __import__('fontawesome-free')
@@ -14,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
-
+#'django-insecure-u6u44m$mkyh@vnk2wvn5$^(a85o#kup(t&)vglpcr5@p$pq2m7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'taggit',
     'cloudinary',
     'django_filters',
+    'crispy_forms',
 ]
 
 
@@ -138,7 +140,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-
+    #os.path.join(BASE_DIR, 'boot'), 
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -169,6 +171,8 @@ SITE_ID = 1
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-LOGIN_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'revapp:index'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 django_heroku.settings(locals())
