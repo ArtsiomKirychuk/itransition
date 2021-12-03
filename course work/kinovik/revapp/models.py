@@ -1,3 +1,4 @@
+from functools import total_ordering
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.base import Model
@@ -17,6 +18,23 @@ def slugify(s):
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
+    def __str__(self):
+        return str(self.user.username)
+    
+    def get_likes_given(self):
+        likes = self.likes.all()
+        totalLikes = 0
+        for item in likes:
+            if item.value == "Like":
+                totalLikes += 1
+        return totalLikes
+
+    def get_likes_recieved(self):
+        articles = self.articles.all()
+        total =  0
+        for item in articles:
+            total += item.fans.all().count()
+        return total 
 
 
 class Article(models.Model):
@@ -33,12 +51,13 @@ class Article(models.Model):
     tags = TaggableManager()
     date_created = models.DateTimeField(auto_now_add=True,null=True)
     date_updated = models.DateTimeField(auto_now=True,null=True)
-    fans = models.ManyToManyField(User, related_name='liked_articles', blank=True)
-    likes = models.IntegerField(default=0)
+    fans = models.ManyToManyField(Account, related_name='liked', blank=True)
     rating = models.IntegerField(default=-1, choices=SCALE)
     views = models.BigIntegerField(default=0)
-    author = models.ForeignKey(Account, on_delete=models.CASCADE, default=None)
-    
+    author = models.ForeignKey(Account, on_delete=models.CASCADE, default=None, related_name='articles')
+
+    class Meta:
+        ordering = ['-date_created']    
 
     def __str__(self):
         return self.title
@@ -53,9 +72,44 @@ class Article(models.Model):
         self.views += 1
         self.save()
 
+    def numLikes(self):
+        return self.fans.all().count()
+
+    def numComments(self):
+        return self.comments.all().count()
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Article, self).save(*args, **kwargs)
+
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
+    body = models.TextField(max_length=300)
+    date_created = models.DateTimeField(auto_now_add=True,null=True)
+    date_updated = models.DateTimeField(auto_now=True,null=True)
+
+    def __str__(self):
+        return str(self.pk)
+    
+
+class Like(models.Model):
+    LIKE_CHOICES = [
+        ('Like','Like'),
+        ('Unlike', 'Unlike'),
+    ]
+    
+    user =models.ForeignKey(Account, on_delete=models.CASCADE, related_name='likes')
+    post = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='likes')
+    value =  models.CharField(choices=LIKE_CHOICES, max_length=10)
+    date_created = models.DateTimeField(auto_now_add=True,null=True)
+    date_updated = models.DateTimeField(auto_now=True,null=True)
+
+    def __str__ (self):
+        return f"{self.user}-{self.post}-{self.value}"
+
 
 
 class Photo(models.Model):

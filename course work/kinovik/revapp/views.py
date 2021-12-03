@@ -1,25 +1,18 @@
-
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.template.defaultfilters import title
 from .filters import ArticleFilter
-from .models import Article, Account, Photo
+from .models import Article, Account, Photo, Like
 from taggit.models import Tag
 from . import forms
-from cloudinary.forms import cl_init_js_callbacks      
-
-
-
 
 
 def index(request):  
     checkAccount(request)
-    articles = Article.objects.order_by('-views','-likes')
+    articles = Article.objects.order_by('-views')
     articles = paginate(request, articles, modelPerPage=6)
     return render(request, 'revapp/article_list.html',{'articles':articles})
 
@@ -86,6 +79,14 @@ def deleteArticle(request,slug):
     Article.objects.filter(slug=slug).delete()
     return redirect ('revapp:myarticles')
 
+def likeUnlikeArticle(request, slug):
+    if request.method =='POST':
+            article = Article.objects.filter(slug=slug).get()
+            account = Account.objects.filter(user=request.user).get()
+            if account in article.fans.all():
+                article.liked.remove(account)
+            else:
+                article.fans.add(account)
 
 
 def searchArticle(request):
