@@ -1,13 +1,13 @@
 from django import forms
 from django.db.models import fields
-from django.forms import widgets
 from . import models
+from . models import Photo
 
 
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = models.Article
-        fields = ['title', 'body','group','tags','images','rating']
+        fields = ['title', 'body','group','tags','rating']
 
     def is_valid(self) -> bool:
         valid = super().is_valid()
@@ -17,3 +17,8 @@ class ArticleForm(forms.ModelForm):
             return False
         else: return True
     
+
+class PhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['image']

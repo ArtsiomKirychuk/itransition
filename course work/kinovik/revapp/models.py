@@ -16,7 +16,8 @@ def slugify(s):
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    
+
+
 
 class Article(models.Model):
     GROUP = [
@@ -30,7 +31,6 @@ class Article(models.Model):
     group = models.CharField(max_length=100, choices=GROUP, null = True)
     body = models.TextField()
     tags = TaggableManager()
-    images = CloudinaryField('image', blank=True)
     date_created = models.DateTimeField(auto_now_add=True,null=True)
     date_updated = models.DateTimeField(auto_now=True,null=True)
     fans = models.ManyToManyField(User, related_name='liked_articles', blank=True)
@@ -58,4 +58,8 @@ class Article(models.Model):
         super(Article, self).save(*args, **kwargs)
 
 
-
+class Photo(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='images')
+    image = CloudinaryField('image')
+    
+    

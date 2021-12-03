@@ -78,9 +78,14 @@
 <script src="{%static 'js/jquery.min.js'%}"></script>
 <script src="{%static 'js/bootstrap.bundle.min.js'%}"></script>
 <script src="/static/js/tagsinput.js"></script>
+<script src="{% static 'js/cloud/jquery.cloudinary.js'%}"></script>
+<script src="{% static 'js/cloud/jquery.fileupload.js'%}"></script>
+
   <script>
     $("#post-form").submit(function(e){
         e.preventDefault();
         });</script>
+{%block extra_body%}
+{%endblock%}
 </body>
 </html>

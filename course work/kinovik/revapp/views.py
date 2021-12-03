@@ -1,14 +1,20 @@
+
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .filters import ArticleFilter
 from django.template.defaultfilters import title
-from .models import Article, Account
+from .filters import ArticleFilter
+from .models import Article, Account, Photo
 from taggit.models import Tag
 from . import forms
+from cloudinary.forms import cl_init_js_callbacks      
+
+
+
 
 
 def index(request):  
@@ -37,12 +43,15 @@ def detailArticle(request,slug):
     return render(request, 'revapp/article_detail.html', {'article':article})
 
 def createArticle(request):
+
     if request.method=='POST':
+        images =  request.FILES.getlist('images')
         form = forms.ArticleForm(request.POST, request.FILES)
         if form.is_valid():
             article = form.save(commit=False)
             article.author = Account.objects.filter(user_id=request.user.id).first()
             article.save()
+            addImages(article,images)
             form.save_m2m()
             return redirect('revapp:myarticles')
     else:
@@ -61,6 +70,14 @@ def updateArticle(request, slug):
     else:
          form = forms.ArticleForm()
     return render(request,  'revapp/article_update.html', {'form':form, 'article':article})
+
+def otherImages(request, slug):
+    photoObj = Article.objects.filter(slug=slug).get().images.all()
+    images = []
+    for obj in photoObj:
+        images.append(obj.image)
+
+    return render (request, 'revapp/article_album.html', {'images':images,'slug':slug})
 
 
 def deleteArticle(request,slug):
@@ -88,15 +105,10 @@ def groupArticle(request):
             return render( request, 'revapp/article_list.html', {'articles': articles})
     return redirect('revapp:index')
 
-
-
     
 def tagged(request,slug):
     tag = get_object_or_404(Tag, slug=slug)
-    print(tag,'@@@@@@@@@@@@@@@@')
     articles =  Article.objects.filter(tags=tag)
-    print(articles,'@@@@@@@@@@@@@@@@')
-
     return render(request, 'revapp/article_list.html', {'articles':articles,'tag':tag})
 
 def paginate(request, someModel, modelPerPage=6):
@@ -110,8 +122,11 @@ def paginate(request, someModel, modelPerPage=6):
         someModel = paginator.page(paginator.num_pages)
     return someModel
 
-
 def checkAccount(request):
     if request.user.is_authenticated:
         account = Account.objects.filter(user=request.user).first()
         if not account: Account.objects.create(user=request.user)
+
+def addImages(article,images):
+    for image in images:
+        Photo.objects.create(image=image, article =article)

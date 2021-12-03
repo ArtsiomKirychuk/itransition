@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'cloudinary',
     'django_filters',
     'crispy_forms',
+    'future'
 ]
+
 
 
 MIDDLEWARE = [

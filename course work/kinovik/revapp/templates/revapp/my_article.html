@@ -29,7 +29,7 @@
                       {%for article in articles%}
                     <tr>
                       <td class="align-middle text-center">
-                       <img class="card-img-top" src="{{article.images.url}}"> 
+                       <img class="card-img-top" src="{{article.images.first.image.url}}"> 
                       </td>
                       <td class="text-nowrap align-middle">{{article.title}}</td>
                       <td class="text-nowrap align-middle"><span>{{article.date_created|date:"M d, Y"}}</span></td>
