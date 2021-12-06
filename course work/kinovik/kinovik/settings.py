@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'cloudinary',
     'django_filters',
     'crispy_forms',
-    'future'
+    'future',
+    'ckeditor'
 ]
 
 
@@ -145,6 +146,10 @@ STATICFILES_DIRS = [
     #os.path.join(BASE_DIR, 'boot'), 
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

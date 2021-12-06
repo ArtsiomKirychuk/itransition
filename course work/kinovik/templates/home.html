@@ -1,6 +1,6 @@
 {%load static%}
 {% load cloudinary %}    
-{% load socialaccount%}  
+{% load socialaccount%} 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,18 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/djpkuwaix/image/upload/v1638582300/fav_yr4qo2.ico"/>
     <link href="/static/css/bootstrap.min.css"rel="stylesheet" type="text/css"> 
     <link href="{% static 'fontawesome_free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{%static 'css/style.css'%}"/>
     <link rel="stylesheet" href="{%static 'css/tagsinput.css'%}" />
     
 
-    <title>home</title>
+    <title></title>
 </head>
 <body>  
   <header>
     <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-dark nav-color py-4 ml-lg-5">    
+      <nav class="navbar navbar-expand-lg navbar-dark nav-color py-3 ml-lg-5">    
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item">
@@ -43,8 +44,8 @@
                     <img src="/static/images/user.jpg" width="50" alt="User" class="rounded"/>                    
                     <p><span class="badge badge-secondary">Welcome,{{user.username}}</span></p>
                 </div>                   
-                <a class="dropdown-item btn btn-dark" href="{%url 'revapp:myarticles'%}">мои отзывы</a>
-                <a class="dropdown-item" href="/accounts/logout">выход</a>   
+                <a class="dropdown-item btn btn-dark" href="{%url 'revapp:myarticles'%}">My articles</a>
+                <a class="dropdown-item" href="/accounts/logout">Log out</a>   
               
 
               </div>      
@@ -77,14 +78,11 @@
 </div>
 <script src="{%static 'js/jquery.min.js'%}"></script>
 <script src="{%static 'js/bootstrap.bundle.min.js'%}"></script>
-<script src="/static/js/tagsinput.js"></script>
-<script src="{% static 'js/cloud/jquery.cloudinary.js'%}"></script>
-<script src="{% static 'js/cloud/jquery.fileupload.js'%}"></script>
 
-  <script>
-    $("#post-form").submit(function(e){
-        e.preventDefault();
-        });</script>
+<script src="/static/js/tagsinput.js"></script>
+
+
+ 
 {%block extra_body%}
 {%endblock%}
 </body>

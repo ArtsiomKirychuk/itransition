@@ -31,7 +31,7 @@
                       <td class="align-middle text-center">
                        <a href="{%url 'revapp:detail' article.slug%}"><img class="card-img-top" src="{{article.images.first.image.url}}"> </a>
                       </td>
-                      <td class="text-nowrap align-middle">{{article.title}}</td>
+                     <td class="text-nowrap align-middle"> <a href="{%url 'revapp:detail' article.slug%}">{{article.title}}</a></td>
                       <td class="text-nowrap align-middle"><span>{{article.date_created|date:"M d, Y"}}</span></td>
                       <td class="text-center align-middle">
                         <div class="btn-group align-top">
