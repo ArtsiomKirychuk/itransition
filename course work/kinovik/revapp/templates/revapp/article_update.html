@@ -1,5 +1,6 @@
 {%extends 'home.html'%}
 {%load crispy_forms_tags%}
+{%load i18n%}
 {% block content %}
 
 <div class="container w-50  ">
@@ -27,13 +28,13 @@
         </div>
         <div class="form-group col-md-6 mb-0">
           <div class="form-group  mb-0">
-            <label>Tags</label>
+            <label>{% trans 'Tags'%}</label>
             <input type="text" data-role="tagsinput" class="form-control" name="tags">         
           </div>
         </div>
     </div>
         
-      <button class="btn btn-primary btn-block" type="submit">EDIT   <i class="fas fa-edit"></i></button>
+      <button class="btn btn-primary btn-block" type="submit">{%trans 'EDIT'%}   <i class="fas fa-edit"></i></button>
 
 </font>
 </div>

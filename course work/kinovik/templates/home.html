@@ -1,6 +1,7 @@
 {%load static%}
 {% load cloudinary %}    
 {% load socialaccount%} 
+{% load i18n%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
     <link href="{% static 'fontawesome_free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{%static 'css/style.css'%}"/>
     <link rel="stylesheet" href="{%static 'css/tagsinput.css'%}" />
-    <title></title>
+    <title>993-7</title>
 </head>
 <body>  
   <header>
@@ -27,10 +28,28 @@
               <li class="nav-item">
                 <form class="d-flex justify-content-center align-middle" action="{%url 'revapp:search'%}" method="GET">
                   <input class="form-control me-2" type="search" aria-label="Search" name="q">
-                  <button class="btn btn-outline-info" type="submit">Search</button>
+                  <button class="btn btn-outline-info" type="submit">{% trans 'Search'%}</button>
                 </form>
               </li>
             </ul>
+            <div class="ms-auto">
+              <form class="form-inline p-2" action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}">
+                <select  class="form-control" name="language">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% get_available_languages as LANGUAGES %}
+                    {% get_language_info_list for LANGUAGES as languages %}
+                    {% for language in languages %}
+                        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %}
+                                selected{% endif %}>
+                             {{ language.code }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <input  class="btn btn-outline-light" type="submit" value="Go">
+            </form>
+            </div>
             {% if user.is_authenticated %}
             <div class="dropdown ms-auto">
               <div class="dropdown-toggle " id="dropdownMenuButton"
@@ -40,17 +59,17 @@
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                 <div class="dropdown-item-text r">
                     <img src="/static/images/user.jpg" width="50" alt="User" class="rounded"/>                    
-                    <p><span class="badge badge-secondary">Welcome,{{user.username}}</span></p>
+                    <p><span class="badge badge-secondary">{% trans 'Welcome'%},{{user.username}}</span></p>
                 </div>                   
-                <a class="dropdown-item btn btn-dark" href="{%url 'revapp:myarticles'%}">My articles</a>
-                <a class="dropdown-item" href="/accounts/logout">Log out</a>   
+                <a class="dropdown-item btn btn-dark" href="{%url 'revapp:myarticles'%}">{% trans 'My articles' %}</a>
+                <a class="dropdown-item" href="/accounts/logout">{% trans 'Log out'%}</a>   
               
 
               </div>      
             </div>
             {%else%}
-            <a href="/accounts/login" type="button" class="btn btn-dark">Sign in</a>
-            <a href="/accounts/signup" type="button" class="btn btn-outline-info ">Sign up</a>
+            <a href="/accounts/login" type="button" class="btn btn-dark">{%trans 'Sign in'%}</a>
+            <a href="/accounts/signup" type="button" class="btn btn-outline-info ">{%trans 'Sign up'%}</a>
             {%endif%}
         </div>         
       </nav>      
@@ -61,9 +80,11 @@
             <div class ="col-1-4">
               <form class="d-flex justify-content-center align-middle" action="{%url 'revapp:group'%}" method="GET">
               <div class="d-inline btn-group-vertical " role="group" aria-label="Vertical button group">
-                <input class="btn btn-secondary btn-lg " type="submit" id="button1" value="Movie" name="group">
-                <input class="btn btn-secondary btn-lg " type="submit" id="button1" value="Books" name="group">    
-                <input class="btn btn-secondary btn-lg" type="submit" id="button1" value="Games" name="group">    
+                <button class="btn btn-secondary btn-lg " type="submit" id="button1" value="Home" name="group">{% trans 'Home'%}</button>
+                <button class="btn btn-secondary btn-lg " type="submit" id="button1" value="Movie" name="group">{% trans 'Movie'%}</button>
+                <button class="btn btn-secondary btn-lg " type="submit" id="button2" value="Books" name="group">{%trans 'Books'%}</button>
+                <button class="btn btn-secondary btn-lg" type="submit" id="button3" value="Games" name="group"> {%trans 'Games'%}</button>
+                
               </div>
               </form> 
               <div id="tagcloud">

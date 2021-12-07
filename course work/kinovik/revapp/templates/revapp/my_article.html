@@ -1,5 +1,6 @@
 {%extends 'home.html'%}
 {%load crispy_forms_tags%}
+{%load i18n%}
 {%block content%}
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
@@ -13,17 +14,17 @@
         <div class="e-panel card">
           <div class="card-body">
             <div class="card-title">
-              <h6 class="mr-2"><span></span><small class="px-1">Artcile manager</small></h6>
+              <h6 class="mr-2"><span></span><small class="px-1">{%trans 'Artcile manager'%}</small></h6>
             </div>
             <div class="e-table">
               <div class="table-responsive table-lg mt-3">
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th>Photo</th>
-                      <th class="max-width">Title</th>
-                      <th class="sortable">Date</th>
-                      <th>Actions</th>
+                      <th>{% trans 'Photo'%}</th>
+                      <th class="max-width">{%trans 'Title'%}</th>
+                      <th class="sortable">{%trans 'Date'%}</th>
+                      <th>{%trans 'Actions'%}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -36,7 +37,7 @@
                       <td class="text-nowrap align-middle"><span>{{article.date_created|date:"M d, Y"}}</span></td>
                       <td class="text-center align-middle">
                         <div class="btn-group align-top">
-                            <a href="{%url 'revapp:update' article.slug%}" class="btn btn-sm btn-outline-secondary badge" type="button" >Edit</a>
+                            <a href="{%url 'revapp:update' article.slug%}" class="btn btn-sm btn-outline-secondary badge" type="button" >{%trans 'Edit'%}</a>
                             <a href="{%url 'revapp:delete' article.slug%}" class="btn btn-sm btn-outline-secondary badge" type="button"><i class="fa fa-trash"></i></a>
                         </div>
                       </td>
@@ -55,7 +56,7 @@
            <thead>
                <div class="card">
                    <div class="card-title">
-                    <h6 class="mr-2">Filter</h6>
+                    <h6 class="mr-2">{% trans 'Filter'%}</h6>
                     <ul class="nav nav-tabs">
                         
                         <form class="d-flex justify-content-center align-middle" method="GET">
@@ -69,7 +70,7 @@
            </thead>
            <tbody>
                <tr>
-                <a href="{%url 'revapp:create'%}" class="btn btn-success btn-block">NEW ARICLE<i class="fas fa-plus"></i></a>
+                <a href="{%url 'revapp:create'%}" class="btn btn-success btn-block">{%trans 'NEW ARICLE'%}<i class="fas fa-plus"></i></a>
                </tr>
            </tbody>
        </table>

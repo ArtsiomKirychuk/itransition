@@ -130,6 +130,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en'
 
+LANGUAGES = [
+    ('en','English'),
+    ('ru', 'Russian')
+]
+LOCALE_PATHS = ['locale']
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
