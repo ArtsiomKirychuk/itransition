@@ -1,4 +1,5 @@
 {%extends 'home.html'%}
+{%load crispy_forms_tags%}
 {%block content%}
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
@@ -12,7 +13,7 @@
         <div class="e-panel card">
           <div class="card-body">
             <div class="card-title">
-              <h6 class="mr-2"><span></span><small class="px-1">Be a wise leader</small></h6>
+              <h6 class="mr-2"><span></span><small class="px-1">Artcile manager</small></h6>
             </div>
             <div class="e-table">
               <div class="table-responsive table-lg mt-3">
@@ -58,8 +59,8 @@
                     <ul class="nav nav-tabs">
                         
                         <form class="d-flex justify-content-center align-middle" method="GET">
-                            <li class="nav-item"><a class="nav-link active" href="#"><small>Group</small></a></li>
-                            <li class="nav-item"><a class="nav-link active">{{filter.form.group}}</a></li>
+                            {{filter.form|crispy}}
+
                             <li class="nav-item"><a class="nav-link active"><button class="btn btn-light"  type="submit"><i class="fas fa-search"></i></button></a></li>
                         </form>
                       </ul>

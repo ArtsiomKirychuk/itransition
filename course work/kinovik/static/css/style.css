@@ -271,3 +271,11 @@ a:hover{
   background-color: inherit !important;
   border:0 !important;
 }
+
+.ahref{
+  color: #fff ;
+}
+
+.ahref:hover{
+  color:#232321;
+}

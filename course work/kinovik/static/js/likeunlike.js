@@ -22,11 +22,11 @@
                 },
                 success: function(response){
                     console.log(response)
-                   if(trim ==='Unlike'){
-                    $(`.like-btn${article_id}`).text('Like')
+                   if(trim ==='Like'){
+                    $(`.like-btn${article_id}`).text('Unlike')
                     res = trimCount + 1 
                    }else{
-                    $(`.like-btn${article_id}`).text('Unlike')
+                    $(`.like-btn${article_id}`).text('Like')
                     res = trimCount -1
                    }
                    $(`.like-count${article_id}`).text(res)

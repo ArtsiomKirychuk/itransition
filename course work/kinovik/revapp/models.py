@@ -64,7 +64,7 @@ class Article(models.Model):
     
     def snippet(self):
         if self.body != '':
-            return self.body[:30]
+            return f'{self.body[:30]}...'
         else:
             return '[]'    
     

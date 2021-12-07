@@ -17,8 +17,9 @@ def index(request):
     checkAccount(request)
     articles = Article.objects.all()
     articles = sorted(articles, key=lambda x: x.numLikes(), reverse=True)
+    tags = Tag.objects.all()
     articles = paginate(request, articles, modelPerPage=6)
-    return render(request, 'revapp/article_list.html',{'articles':articles})
+    return render(request, 'revapp/article_list.html',{'articles':articles,'tags':tags})
 
 @login_required(login_url='/accounts/login')
 def myArticles(request):
@@ -108,7 +109,10 @@ def otherImages(request, slug):
 def deleteArticle(request,slug):
     if request.user != Article.objects.filter(slug=slug).first().author.user:
         return redirect('revapp:index')
-    Article.objects.filter(slug=slug).delete()
+    article = Article.objects.filter(slug=slug).get()
+    article.tags.remove()
+    article.delete()
+    remove_all_tags_without_objects()
     return redirect ('revapp:myarticles')
 
 @login_required(login_url='/accounts/login')
@@ -174,3 +178,8 @@ def checkAccount(request):
 def addImages(article,images):
     for image in images:
         Photo.objects.create(image=image, article =article)
+
+def remove_all_tags_without_objects():
+    for tag in Tag.objects.all():
+        if tag.taggit_taggeditem_items.count() == 0:
+            tag.delete()

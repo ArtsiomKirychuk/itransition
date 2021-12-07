@@ -1,29 +1,37 @@
 {%extends 'home.html'%}
 {%load crispy_forms_tags%}
-{%load static%}
 {% block content %}
 
 <div class="container w-50  ">
   <font color="white">
   <form action="{%url 'revapp:update' article.slug%}" method="POST" enctype="multipart/form-data">
       {%csrf_token%}
+      {{form.media}}
       <div class="form-row">
-          <div class="form-group col-md-6 mb-0">
-            {{ form.title|as_crispy_field }}
-          </div>
-          <div class="form-group col-md-6 mb-0">
-            {{ form.group|as_crispy_field }}
-          </div>
-      </div>
-        <div class="form-row">
-          <div class="form-group col-md-6 mb-0">
-            {{ form.body|as_crispy_field }}
-          </div>   
-          <div class="form-group  col-md-6 mb-0 ">
-              {{form.rating|as_crispy_field}}  
-          </div>   
-
+        <div class="form-group col-md-6 mb-0">
+          {{ form.title|as_crispy_field }}
         </div>
+        <div class="form-group col-md-6 mb-0">
+          {{ form.group|as_crispy_field }}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+
+          {{ form.body|as_crispy_field }}
+        </div>  
+    </div>
+    <div class="form-row">
+        <div class="form-group  col-md-6 mb-0 ">
+          {{form.rating|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+          <div class="form-group  mb-0">
+            <label>Tags</label>
+            <input type="text" data-role="tagsinput" class="form-control" name="tags">         
+          </div>
+        </div>
+    </div>
         
       <button class="btn btn-primary btn-block" type="submit">EDIT   <i class="fas fa-edit"></i></button>
 

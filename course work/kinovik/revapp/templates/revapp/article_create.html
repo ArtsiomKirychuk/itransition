@@ -1,6 +1,6 @@
 {%extends 'home.html'%}
-{%load static%}
 {% load crispy_forms_tags%}
+{% load static%}
 {%block content%}
 
 <div class="container w-50  ">
@@ -42,10 +42,6 @@
               </div>
               <button class="btn btn-success btn-block " type="submit">ADD ARICLE<i class="fas fa-plus"></i></button>
         </div>   
-            
-      
-
-
 
 </font>
 </div>
@@ -53,5 +49,5 @@
 
 {%block extra_body%}
 <script src="{%static 'ckeditor/ckeditor-init.js'%}"></script>
-<script src="{%static 'ckeditor/ckeditor/ckeditro.js'%}"
+<script src="{%static 'ckeditor/ckeditor/ckeditor.js'%}"></script>
 {%endblock%}
